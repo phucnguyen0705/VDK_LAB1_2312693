@@ -24,7 +24,7 @@
 /* USER CODE BEGIN Includes */
 
 /* USER CODE END Includes */
-//
+
 /* Private typedef -----------------------------------------------------------*/
 /* USER CODE BEGIN PTD */
 
@@ -63,118 +63,86 @@ static void MX_GPIO_Init(void);
   */
 int main(void)
 {
-  /* USER CODE BEGIN 1 */
-
-  /* USER CODE END 1 */
-
-  /* MCU Configuration--------------------------------------------------------*/
-
-  /* Reset of all peripherals, Initializes the Flash interface and the Systick. */
   HAL_Init();
-
-  /* USER CODE BEGIN Init */
-
-  /* USER CODE END Init */
-
-  /* Configure the system clock */
   SystemClock_Config();
-
-  /* USER CODE BEGIN SysInit */
-
-  /* USER CODE END SysInit */
-
-  /* Initialize all configured peripherals */
   MX_GPIO_Init();
-  /* USER CODE BEGIN 2 */
 
-  /* USER CODE END 2 */
-  int counter;
-  /* Infinite loop */
-  /* USER CODE BEGIN WHILE */
-
-
+int state = 0;
+    int counter = 0;
     while (1)
     {
-      // ===== NORTH & SOUTH: RED, EAST & WEST: GREEN =====
-      counter = 5;
-      while(counter-- > 0){
-        // North & South = RED (active low)
-        HAL_GPIO_WritePin(GPIOA, GPIO_PIN_4, GPIO_PIN_RESET); // NR ON
-        HAL_GPIO_WritePin(GPIOA, GPIO_PIN_5, GPIO_PIN_SET);   // NY OFF
-        HAL_GPIO_WritePin(GPIOA, GPIO_PIN_6, GPIO_PIN_SET);   // NG OFF
+      switch (state)
+      {
+        case 0:
+          if (counter == 0) counter = 5;  // set duration once
+          HAL_GPIO_WritePin(GPIOA, GPIO_PIN_4, GPIO_PIN_RESET); // NR ON
+          HAL_GPIO_WritePin(GPIOA, GPIO_PIN_5, GPIO_PIN_SET);   // NY OFF
+          HAL_GPIO_WritePin(GPIOA, GPIO_PIN_6, GPIO_PIN_SET);   // NG OFF
 
-        HAL_GPIO_WritePin(GPIOA, GPIO_PIN_10, GPIO_PIN_RESET);// SR ON
-        HAL_GPIO_WritePin(GPIOA, GPIO_PIN_11, GPIO_PIN_SET);  // SY OFF
-        HAL_GPIO_WritePin(GPIOA, GPIO_PIN_12, GPIO_PIN_SET);  // SG OFF
+          HAL_GPIO_WritePin(GPIOA, GPIO_PIN_10, GPIO_PIN_RESET);// SR ON
+          HAL_GPIO_WritePin(GPIOA, GPIO_PIN_11, GPIO_PIN_SET);  // SY OFF
+          HAL_GPIO_WritePin(GPIOA, GPIO_PIN_12, GPIO_PIN_SET);  // SG OFF
 
-        // East & West = GREEN
-        HAL_GPIO_WritePin(GPIOA, GPIO_PIN_7, GPIO_PIN_SET);   // ER OFF
-        HAL_GPIO_WritePin(GPIOA, GPIO_PIN_8, GPIO_PIN_SET);   // EY OFF
-        HAL_GPIO_WritePin(GPIOA, GPIO_PIN_9, GPIO_PIN_RESET); // EG ON
+          HAL_GPIO_WritePin(GPIOA, GPIO_PIN_7, GPIO_PIN_SET);   // ER OFF
+          HAL_GPIO_WritePin(GPIOA, GPIO_PIN_8, GPIO_PIN_SET);   // EY OFF
+          HAL_GPIO_WritePin(GPIOA, GPIO_PIN_9, GPIO_PIN_RESET); // EG ON
 
-        HAL_GPIO_WritePin(GPIOA, GPIO_PIN_13, GPIO_PIN_SET);  // WR OFF
-        HAL_GPIO_WritePin(GPIOA, GPIO_PIN_14, GPIO_PIN_SET);  // WY OFF
-        HAL_GPIO_WritePin(GPIOA, GPIO_PIN_15, GPIO_PIN_RESET);// WG ON
+          HAL_GPIO_WritePin(GPIOA, GPIO_PIN_13, GPIO_PIN_SET);  // WR OFF
+          HAL_GPIO_WritePin(GPIOA, GPIO_PIN_14, GPIO_PIN_SET);  // WY OFF
+          HAL_GPIO_WritePin(GPIOA, GPIO_PIN_15, GPIO_PIN_RESET);// WG ON
+          break;
 
-        HAL_Delay(1000);
+        case 1:
+          if (counter == 0) counter = 2;
+          HAL_GPIO_WritePin(GPIOA, GPIO_PIN_7, GPIO_PIN_SET);   // ER OFF
+          HAL_GPIO_WritePin(GPIOA, GPIO_PIN_8, GPIO_PIN_RESET); // EY ON
+          HAL_GPIO_WritePin(GPIOA, GPIO_PIN_9, GPIO_PIN_SET);   // EG OFF
+
+          HAL_GPIO_WritePin(GPIOA, GPIO_PIN_13, GPIO_PIN_SET);  // WR OFF
+          HAL_GPIO_WritePin(GPIOA, GPIO_PIN_14, GPIO_PIN_RESET);// WY ON
+          HAL_GPIO_WritePin(GPIOA, GPIO_PIN_15, GPIO_PIN_SET);  // WG OFF
+          break;
+
+        case 2:
+          if (counter == 0) counter = 5;
+          HAL_GPIO_WritePin(GPIOA, GPIO_PIN_7, GPIO_PIN_RESET); // ER ON
+          HAL_GPIO_WritePin(GPIOA, GPIO_PIN_8, GPIO_PIN_SET);   // EY OFF
+          HAL_GPIO_WritePin(GPIOA, GPIO_PIN_9, GPIO_PIN_SET);   // EG OFF
+
+          HAL_GPIO_WritePin(GPIOA, GPIO_PIN_13, GPIO_PIN_RESET);// WR ON
+          HAL_GPIO_WritePin(GPIOA, GPIO_PIN_14, GPIO_PIN_SET);  // WY OFF
+          HAL_GPIO_WritePin(GPIOA, GPIO_PIN_15, GPIO_PIN_SET);  // WG OFF
+
+          HAL_GPIO_WritePin(GPIOA, GPIO_PIN_4, GPIO_PIN_SET);   // NR OFF
+          HAL_GPIO_WritePin(GPIOA, GPIO_PIN_5, GPIO_PIN_SET);   // NY OFF
+          HAL_GPIO_WritePin(GPIOA, GPIO_PIN_6, GPIO_PIN_RESET); // NG ON
+
+          HAL_GPIO_WritePin(GPIOA, GPIO_PIN_10, GPIO_PIN_SET);  // SR OFF
+          HAL_GPIO_WritePin(GPIOA, GPIO_PIN_11, GPIO_PIN_SET);  // SY OFF
+          HAL_GPIO_WritePin(GPIOA, GPIO_PIN_12, GPIO_PIN_RESET);// SG ON
+          break;
+
+        case 3:
+          if (counter == 0) counter = 2;
+          HAL_GPIO_WritePin(GPIOA, GPIO_PIN_4, GPIO_PIN_SET);   // NR OFF
+          HAL_GPIO_WritePin(GPIOA, GPIO_PIN_5, GPIO_PIN_RESET); // NY ON
+          HAL_GPIO_WritePin(GPIOA, GPIO_PIN_6, GPIO_PIN_SET);   // NG OFF
+
+          HAL_GPIO_WritePin(GPIOA, GPIO_PIN_10, GPIO_PIN_SET);  // SR OFF
+          HAL_GPIO_WritePin(GPIOA, GPIO_PIN_11, GPIO_PIN_RESET);// SY ON
+          HAL_GPIO_WritePin(GPIOA, GPIO_PIN_12, GPIO_PIN_SET);  // SG OFF
+          break;
       }
 
-      // ===== EAST & WEST: YELLOW =====
-      counter = 2;
-      while(counter-- > 0){
-        HAL_GPIO_WritePin(GPIOA, GPIO_PIN_7, GPIO_PIN_SET);   // ER OFF
-        HAL_GPIO_WritePin(GPIOA, GPIO_PIN_8, GPIO_PIN_RESET); // EY ON
-        HAL_GPIO_WritePin(GPIOA, GPIO_PIN_9, GPIO_PIN_SET);   // EG OFF
+      counter--;
 
-        HAL_GPIO_WritePin(GPIOA, GPIO_PIN_13, GPIO_PIN_SET);  // WR OFF
-        HAL_GPIO_WritePin(GPIOA, GPIO_PIN_14, GPIO_PIN_RESET);// WY ON
-        HAL_GPIO_WritePin(GPIOA, GPIO_PIN_15, GPIO_PIN_SET);  // WG OFF
-
-        HAL_Delay(1000);
+      if (counter == 0) {
+        state++;
+        if (state > 3) state = 0;
       }
-
-      // ===== EAST & WEST: RED, NORTH & SOUTH: GREEN =====
-      counter = 5;
-      while(counter-- > 0){
-        // East & West = RED
-        HAL_GPIO_WritePin(GPIOA, GPIO_PIN_7, GPIO_PIN_RESET); // ER ON
-        HAL_GPIO_WritePin(GPIOA, GPIO_PIN_8, GPIO_PIN_SET);   // EY OFF
-        HAL_GPIO_WritePin(GPIOA, GPIO_PIN_9, GPIO_PIN_SET);   // EG OFF
-
-        HAL_GPIO_WritePin(GPIOA, GPIO_PIN_13, GPIO_PIN_RESET);// WR ON
-        HAL_GPIO_WritePin(GPIOA, GPIO_PIN_14, GPIO_PIN_SET);  // WY OFF
-        HAL_GPIO_WritePin(GPIOA, GPIO_PIN_15, GPIO_PIN_SET);  // WG OFF
-
-        // North & South = GREEN
-        HAL_GPIO_WritePin(GPIOA, GPIO_PIN_4, GPIO_PIN_SET);   // NR OFF
-        HAL_GPIO_WritePin(GPIOA, GPIO_PIN_5, GPIO_PIN_SET);   // NY OFF
-        HAL_GPIO_WritePin(GPIOA, GPIO_PIN_6, GPIO_PIN_RESET); // NG ON
-
-        HAL_GPIO_WritePin(GPIOA, GPIO_PIN_10, GPIO_PIN_SET);  // SR OFF
-        HAL_GPIO_WritePin(GPIOA, GPIO_PIN_11, GPIO_PIN_SET);  // SY OFF
-        HAL_GPIO_WritePin(GPIOA, GPIO_PIN_12, GPIO_PIN_RESET);// SG ON
-
-        HAL_Delay(1000);
-      }
-
-      // ===== NORTH & SOUTH: YELLOW =====
-      counter = 2;
-      while(counter-- > 0){
-        HAL_GPIO_WritePin(GPIOA, GPIO_PIN_4, GPIO_PIN_SET);   // NR OFF
-        HAL_GPIO_WritePin(GPIOA, GPIO_PIN_5, GPIO_PIN_RESET); // NY ON
-        HAL_GPIO_WritePin(GPIOA, GPIO_PIN_6, GPIO_PIN_SET);   // NG OFF
-
-        HAL_GPIO_WritePin(GPIOA, GPIO_PIN_10, GPIO_PIN_SET);  // SR OFF
-        HAL_GPIO_WritePin(GPIOA, GPIO_PIN_11, GPIO_PIN_RESET);// SY ON
-        HAL_GPIO_WritePin(GPIOA, GPIO_PIN_12, GPIO_PIN_SET);  // SG OFF
-
-        HAL_Delay(1000);
-      }
-    /* USER CODE END WHILE */
-
-    /* USER CODE BEGIN 3 */
+      HAL_Delay(1000);
   }
-  /* USER CODE END 3 */
+
 }
 
 /**

@@ -85,30 +85,15 @@ int main(void)
 {
  800014c:	b580      	push	{r7, lr}
  800014e:	af00      	add	r7, sp, #0
-  /* USER CODE END 1 */
-
-  /* MCU Configuration--------------------------------------------------------*/
-
-  /* Reset of all peripherals, Initializes the Flash interface and the Systick. */
   HAL_Init();
  8000150:	f000 f918 	bl	8000384 <HAL_Init>
-  /* USER CODE BEGIN Init */
 
-  /* USER CODE END Init */
-
-  /* Configure the system clock */
   SystemClock_Config();
  8000154:	f000 f81c 	bl	8000190 <SystemClock_Config>
-  /* USER CODE BEGIN SysInit */
 
-  /* USER CODE END SysInit */
-
-  /* Initialize all configured peripherals */
   MX_GPIO_Init();
  8000158:	f000 f856 	bl	8000208 <MX_GPIO_Init>
-  /* USER CODE BEGIN 2 */
 
-  /* USER CODE END 2 */
   HAL_GPIO_WritePin(a_GPIO_Port, a_Pin, RESET);
  800015c:	2200      	movs	r2, #0
  800015e:	2120      	movs	r1, #32
@@ -119,8 +104,6 @@ int main(void)
  8000168:	2140      	movs	r1, #64	; 0x40
  800016a:	4808      	ldr	r0, [pc, #32]	; (800018c <main+0x40>)
  800016c:	f000 fbee 	bl	800094c <HAL_GPIO_WritePin>
-  /* Infinite loop */
-  /* USER CODE BEGIN WHILE */
   while (1)
   {HAL_Delay(2000);
  8000170:	f44f 60fa 	mov.w	r0, #2000	; 0x7d0
