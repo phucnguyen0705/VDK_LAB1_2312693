@@ -78,12 +78,12 @@ int main(void)
   MX_GPIO_Init();
 
   int  hour=13;
-  	int minute=54;
-  	int second=30;
+  	int minute=59;
+  	int second=44;
 
   while (1)
   {clearAllClock();
-  int secondPos = second % 12;
+  int secondPos = second /5;
   int minutePos = minute / 5;
   int hourPos   = hour % 12;
 
@@ -101,7 +101,7 @@ int main(void)
         if (minute >= 60) {
           minute = 0;
           hour++;
-          if (hour >= 12) hour = 0;
+          if (hour >= 12) hour = hour -12;
         }
     }
   }
